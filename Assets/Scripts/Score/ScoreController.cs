@@ -15,7 +15,7 @@ public class ScoreController : MonoBehaviour
 
     private void Start()
     {
-        scorers = new List<IScorer>() { new StraightLineScorer() };
+        scorers = new List<IScorer>() { new StraightLineScorer(), new DiagonalBlankScorer() };
         EventDispatcher.AddEventListener(EventNames.ON_FINISH_SPIN, CalculateScore);
         EventDispatcher.AddEventListener(EventNames.ON_START_SPIN, ResetLines);
     }
@@ -69,56 +69,4 @@ public class ScoreController : MonoBehaviour
 
         Debug.Log($"<color=cyan>FINAL SCORE: {finalScore}</color>");
     }
-}
-
-public interface IScorer
-{
-    List<ScoreCounter> Score(SlotID[,] scoreSlots);
-}
-
-public class StraightLineScorer : IScorer
-{
-    public Dictionary<SlotsIDs, List<int>> scoreValues = new Dictionary<SlotsIDs, List<int>>()
-         {
-            { SlotsIDs.Bell, new List<int>{ 25, 50, 75, 100 } },
-            { SlotsIDs.Cherry, new List<int>{ 5, 10, 20, 40 } },
-            { SlotsIDs.Blueberry, new List<int>{ 1, 2, 5, 10 } },
-            { SlotsIDs.Watermelon, new List<int>{ 10, 20, 30, 60 } },
-            { SlotsIDs.Orange, new List<int>{ 5, 10, 15, 30 } },
-            { SlotsIDs.Grape, new List<int>{ 5, 10, 20, 50} },
-            { SlotsIDs.Lemon, new List<int>{ 2, 5, 10, 20} }
-        };
-
-    public List<ScoreCounter> Score(SlotID[,] scoreSlots)
-    {
-        var result = new List<ScoreCounter>();
-
-        for (int i = 0; i < scoreSlots.GetLength(0); i++)
-        {
-            List<SlotID> scoreIDs = new List<SlotID> { scoreSlots[i, 0] };
-
-            for (int j = 1; j < scoreSlots.GetLength(1); j++)
-            {
-                if (scoreIDs[scoreIDs.Count - 1].ID == scoreSlots[i, j].ID)
-                    scoreIDs.Add(scoreSlots[i, j]);
-                else
-                    break;
-            }
-
-            if (scoreIDs.Count > 1)
-            {
-                var positions = scoreIDs.Select(id => id.Transform.position).ToList();
-                int score = scoreValues[scoreIDs[0].ID][scoreIDs.Count - 2];
-                result.Add(new ScoreCounter() { positions = positions, score = score });
-            }
-        }
-
-        return result;
-    }
-}
-
-public struct ScoreCounter
-{
-    public List<Vector3> positions;
-    public int score;
 }
