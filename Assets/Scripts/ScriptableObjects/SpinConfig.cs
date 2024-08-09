@@ -5,7 +5,6 @@ using UnityEngine;
 public class SpinConfig : ScriptableObject
 {
     public SlotAnimationConfig animationConfig;
-    public float delayBetweenRows = 2f;
 }
 
 [Serializable]

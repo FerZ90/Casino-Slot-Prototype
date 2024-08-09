@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,9 +12,11 @@ public class SlotView : MonoBehaviour
     public void UpdateView(SlotModel model)
     {
         _model = model;
+        iconImage.sprite = _model.icon;
     }
 }
 
+[Serializable]
 public class SlotModel
 {
     public SlotsIDs slotID;

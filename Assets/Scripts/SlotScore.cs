@@ -5,37 +5,22 @@ public partial class SlotScore : MonoBehaviour
 {
     [SerializeField] private LineScore[] scoreList;
 
-    private List<SlotID> slotsIDs;
-    public List<SlotID> FinalScoreIDs => slotsIDs;
+    private List<SlotID> _rowScore;
+    public List<SlotID> RowScore => _rowScore;
 
-    private void Awake()
+    public void SetScore()
     {
-        EventDispatcher.AddEventListener(EventNames.ON_STOP_ROW, FinishRowMovement);
+        _rowScore = new List<SlotID>();
+
+        foreach (var line in scoreList)
+        {
+            if (line.SlotScore == null)
+                continue;
+
+            _rowScore.Add(new SlotID(line.SlotScore.SlotID, line.SlotScore.transform));
+            Debug.Log($"LAST SCORE: {line.SlotScore.SlotID}");
+        }
     }
 
-    private void OnDestroy()
-    {
-        EventDispatcher.RemoveEventListener(EventNames.ON_STOP_ROW, FinishRowMovement);
-    }
-
-    public void FinishRowMovement(object animation)
-    {
-        //if (animation is SlotAnimation)
-        //{
-        //    if ((SlotAnimation)animation == GetComponent<SlotAnimation>())
-        //    {
-        //        slotsIDs = new List<SlotID>();
-
-        //        foreach (var line in scoreList)
-        //        {
-        //            if (line.SlotScore == null)
-        //                continue;
-
-        //            slotsIDs.Add(new SlotID(line.SlotScore.SlotID, line.SlotScore.transform));
-        //            Debug.Log($"LAST SCORE: {line.SlotScore.SlotID}");
-        //        }
-        //    }
-        //}
-    }
 
 }

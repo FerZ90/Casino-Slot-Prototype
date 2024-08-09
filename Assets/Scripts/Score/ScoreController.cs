@@ -44,7 +44,7 @@ public class ScoreController : MonoBehaviour
         {
             for (int j = 0; j < finalSlots.GetLength(1); j++)
             {
-                finalSlots[i, j] = rowsScore[j].FinalScoreIDs[i];
+                finalSlots[i, j] = rowsScore[j].RowScore[i];
             }
         }
 

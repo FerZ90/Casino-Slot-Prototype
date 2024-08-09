@@ -1,59 +1,48 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SpinController : MonoBehaviour
 {
-    [SerializeField] private UnityEngine.UI.Button spinButton;
+    [SerializeField] private Button spinButton;
     [SerializeField] private RowSlotView[] rowViews;
-    [SerializeField] private SpinConfig spinConfig;
-    public SpinConfig SpinConfig => spinConfig;
 
     private int rowCount;
-
-    private static SpinController _instance;
-    public static SpinController Instance => _instance;
 
     private SlotAnimation slotAnimation;
 
     private void Awake()
     {
-        Application.targetFrameRate = 60;
-
-        if (_instance == null)
-        {
-            DontDestroyOnLoad(gameObject);
-            _instance = this;
-        }
-        else
-        {
-            if (Application.isPlaying)
-                Destroy(gameObject);
-        }
-
         slotAnimation = Tween<SlotAnimation>.GetAnimation();
     }
     private void Start()
     {
-        EventDispatcher.AddEventListener(EventNames.ON_STOP_ROW, OnFinishAnimation);
+        slotAnimation.OnFinishAnimation += OnFinishAnimation;
     }
 
     private void OnDestroy()
     {
-        EventDispatcher.RemoveEventListener(EventNames.ON_STOP_ROW, OnFinishAnimation);
+        slotAnimation.OnFinishAnimation -= OnFinishAnimation;
     }
 
     public void SpinButton()
     {
         spinButton.interactable = false;
         rowCount = 0;
-        slotAnimation.StartAnimation(rowViews[0].slots);
+        slotAnimation.StartAnimation(rowViews[0].Slots);
 
         EventDispatcher.DispatchEvent(EventNames.ON_START_SPIN);
     }
 
     private void OnFinishAnimation(object input)
     {
+        Debug.Log("OnFinishAnimation_00");
+
         if (input is not SlotAnimation)
             return;
+
+        Debug.Log("OnFinishAnimation_01");
+
+        rowViews[rowCount].StopRow();
 
         rowCount++;
 
@@ -65,7 +54,7 @@ public class SpinController : MonoBehaviour
             return;
         }
 
-        slotAnimation.StartAnimation(rowViews[rowCount].slots);
+        slotAnimation.StartAnimation(rowViews[rowCount].Slots);
     }
 
 

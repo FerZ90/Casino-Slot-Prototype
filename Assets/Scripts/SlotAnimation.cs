@@ -5,6 +5,7 @@ public class SlotAnimation : ITweenAnimation
 {
     public event Action<ITweenAnimation> OnstartAnimation;
     public event Action<ITweenAnimation> OnFinishAnimation;
+    public event Action<ITweenAnimation> OnDestroyAnimation;
 
     private RectTransform[] _slots;
 
@@ -19,12 +20,17 @@ public class SlotAnimation : ITweenAnimation
 
     private float timer;
 
+    ~SlotAnimation()
+    {
+        OnDestroyAnimation?.Invoke(this);
+    }
+
     public void StartAnimation(RectTransform[] slots)
     {
         _slots = slots;
         height = _slots[0].rect.height;
         bottomPosition = _slots[_slots.Length - 1].localPosition.y + _slots[_slots.Length - 1].rect.yMin;
-        _config = SpinController.Instance.SpinConfig.animationConfig;
+        _config = GameInstaller.Instance.spinConfig.animationConfig;
         topSlot = _slots[0];
         Start();
     }
@@ -61,8 +67,8 @@ public class SlotAnimation : ITweenAnimation
                     initialVelocity = 0;
                     isBreaking = false;
                     isSpining = false;
-                    EventDispatcher.DispatchEvent(EventNames.ON_STOP_ROW, this);
-                    //OnFinishAnimation?.Invoke(this);
+                    //EventDispatcher.DispatchEvent(EventNames.ON_STOP_ROW, this);
+                    OnFinishAnimation?.Invoke(this);
                     return;
                 }
             }

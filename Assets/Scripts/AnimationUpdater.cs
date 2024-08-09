@@ -21,7 +21,7 @@ public class AnimationUpdater : MonoBehaviour
     public void SetupAnimation(ITweenAnimation animation)
     {
         animation.OnstartAnimation += AddAnimation;
-        animation.OnFinishAnimation += RemoveAnimation;
+        animation.OnDestroyAnimation += RemoveAnimation;
     }
 
     private void AddAnimation(ITweenAnimation animation)
@@ -38,7 +38,7 @@ public class AnimationUpdater : MonoBehaviour
         if (animation != null && _animations.Contains(animation))
         {
             _animations.Remove(animation);
-            animation.OnFinishAnimation -= RemoveAnimation;
+            animation.OnDestroyAnimation -= RemoveAnimation;
         }
     }
 
