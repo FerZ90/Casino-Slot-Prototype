@@ -8,7 +8,7 @@ public partial class SlotScore : MonoBehaviour
     private List<SlotID> _rowScore;
     public List<SlotID> RowScore => _rowScore;
 
-    public void SetScore()
+    public void GetRowScore()
     {
         _rowScore = new List<SlotID>();
 

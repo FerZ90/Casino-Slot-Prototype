@@ -30,9 +30,5 @@ public class RowSlotView : MonoBehaviour
         }
     }
 
-    public void StopRow()
-    {
-        GetComponent<SlotScore>().SetScore();
-    }
 }
 

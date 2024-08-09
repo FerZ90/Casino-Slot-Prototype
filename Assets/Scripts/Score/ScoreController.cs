@@ -38,6 +38,9 @@ public class ScoreController : MonoBehaviour
 
     public void CalculateScore(object input)
     {
+        foreach (var score in rowsScore)
+            score.GetRowScore();
+
         finalSlots = new SlotID[3, rowsScore.Length];
 
         for (int i = 0; i < finalSlots.GetLength(0); i++)

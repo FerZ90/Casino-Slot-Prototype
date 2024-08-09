@@ -33,17 +33,8 @@ public class SpinController : MonoBehaviour
         EventDispatcher.DispatchEvent(EventNames.ON_START_SPIN);
     }
 
-    private void OnFinishAnimation(object input)
+    private void OnFinishAnimation(ITweenAnimation input)
     {
-        Debug.Log("OnFinishAnimation_00");
-
-        if (input is not SlotAnimation)
-            return;
-
-        Debug.Log("OnFinishAnimation_01");
-
-        rowViews[rowCount].StopRow();
-
         rowCount++;
 
         if (rowCount >= rowViews.Length)
