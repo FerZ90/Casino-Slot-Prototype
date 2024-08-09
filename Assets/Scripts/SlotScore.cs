@@ -10,32 +10,32 @@ public partial class SlotScore : MonoBehaviour
 
     private void Awake()
     {
-        EventDispatcher.AddEventListener(EventNames.ON_STOP_ROW, WaitToFinishRowMovement);
+        EventDispatcher.AddEventListener(EventNames.ON_STOP_ROW, FinishRowMovement);
     }
 
     private void OnDestroy()
     {
-        EventDispatcher.RemoveEventListener(EventNames.ON_STOP_ROW, WaitToFinishRowMovement);
+        EventDispatcher.RemoveEventListener(EventNames.ON_STOP_ROW, FinishRowMovement);
     }
 
-    private void WaitToFinishRowMovement(object animation)
+    public void FinishRowMovement(object animation)
     {
-        if (animation is SlotAnimation)
-        {
-            if ((SlotAnimation)animation == GetComponent<SlotAnimation>())
-            {
-                slotsIDs = new List<SlotID>();
+        //if (animation is SlotAnimation)
+        //{
+        //    if ((SlotAnimation)animation == GetComponent<SlotAnimation>())
+        //    {
+        //        slotsIDs = new List<SlotID>();
 
-                foreach (var line in scoreList)
-                {
-                    if (line.SlotScore == null)
-                        continue;
+        //        foreach (var line in scoreList)
+        //        {
+        //            if (line.SlotScore == null)
+        //                continue;
 
-                    slotsIDs.Add(new SlotID(line.SlotScore.slotID, line.SlotScore.transform));
-                    Debug.Log($"LAST SCORE: {line.SlotScore.slotID}");
-                }
-            }
-        }
+        //            slotsIDs.Add(new SlotID(line.SlotScore.SlotID, line.SlotScore.transform));
+        //            Debug.Log($"LAST SCORE: {line.SlotScore.SlotID}");
+        //        }
+        //    }
+        //}
     }
 
 }

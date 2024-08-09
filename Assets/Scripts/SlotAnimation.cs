@@ -1,9 +1,12 @@
-using System.Collections;
+﻿using System;
 using UnityEngine;
 
-public class SlotAnimation : MonoBehaviour
+public class SlotAnimation : ITweenAnimation
 {
-    [SerializeField] private RectTransform[] slots;
+    public event Action<ITweenAnimation> OnstartAnimation;
+    public event Action<ITweenAnimation> OnFinishAnimation;
+
+    private RectTransform[] _slots;
 
     private SlotAnimationConfig _config;
     private bool isSpining = false;
@@ -12,29 +15,39 @@ public class SlotAnimation : MonoBehaviour
     private float spinTime;
     private float bottomPosition;
     private RectTransform topSlot;
-
     private float height;
 
-    private void Start()
+    private float timer;
+
+    public void StartAnimation(RectTransform[] slots)
     {
-        height = slots[0].rect.height;
-        bottomPosition = slots[slots.Length - 1].localPosition.y + slots[slots.Length - 1].rect.yMin;
+        _slots = slots;
+        height = _slots[0].rect.height;
+        bottomPosition = _slots[_slots.Length - 1].localPosition.y + _slots[_slots.Length - 1].rect.yMin;
         _config = SpinController.Instance.SpinConfig.animationConfig;
-        topSlot = slots[0];
+        topSlot = _slots[0];
+        Start();
     }
 
-    public void Animate()
+    public void Start()
     {
+        OnstartAnimation?.Invoke(this);
+
         if (!isSpining)
         {
-            initialVelocity = Random.Range(_config.initialMinVelocity, _config.initialMaxVelocity);
-            spinTime = Random.Range(_config.spinMinTime, _config.spinMaxTime);
+            initialVelocity = UnityEngine.Random.Range(_config.initialMinVelocity, _config.initialMaxVelocity);
+            spinTime = UnityEngine.Random.Range(_config.spinMinTime, _config.spinMaxTime);
             isSpining = true;
-            StartCoroutine(StopSpin());
+            timer = 0f;
         }
     }
 
-    private void FixedUpdate()
+    public void Update()
+    {
+
+    }
+
+    public void FixedUpdate()
     {
         if (isSpining)
         {
@@ -43,22 +56,23 @@ public class SlotAnimation : MonoBehaviour
                 if (initialVelocity > _config.initialMinVelocity * 0.5f)
                     initialVelocity *= 0.99f;
 
-                if (Mathf.Abs(slots[0].localPosition.y % height) < 5.0f)
+                if (Mathf.Abs(_slots[0].localPosition.y % height) < 5.0f)
                 {
                     initialVelocity = 0;
                     isBreaking = false;
                     isSpining = false;
                     EventDispatcher.DispatchEvent(EventNames.ON_STOP_ROW, this);
+                    //OnFinishAnimation?.Invoke(this);
                     return;
                 }
             }
 
-            foreach (var slot in slots)
+            foreach (var slot in _slots)
             {
                 slot.localPosition -= new Vector3(0, initialVelocity * Time.fixedDeltaTime, 0);
             }
 
-            foreach (var slot in slots)
+            foreach (var slot in _slots)
             {
                 if ((slot.localPosition.y - slot.rect.yMin) <= bottomPosition)
                 {
@@ -68,13 +82,16 @@ public class SlotAnimation : MonoBehaviour
             }
 
         }
+
+        CheckForStopSpin();
     }
 
-
-    private IEnumerator StopSpin()
+    private void CheckForStopSpin()
     {
-        yield return new WaitForSeconds(spinTime);
-        isBreaking = true;
-    }
+        timer += Time.fixedDeltaTime;
 
+        if (timer >= spinTime)
+            isBreaking = true;
+
+    }
 }

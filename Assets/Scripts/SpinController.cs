@@ -3,7 +3,7 @@ using UnityEngine;
 public class SpinController : MonoBehaviour
 {
     [SerializeField] private UnityEngine.UI.Button spinButton;
-    [SerializeField] private SlotAnimation[] slots;
+    [SerializeField] private RowSlotView[] rowViews;
     [SerializeField] private SpinConfig spinConfig;
     public SpinConfig SpinConfig => spinConfig;
 
@@ -11,6 +11,8 @@ public class SpinController : MonoBehaviour
 
     private static SpinController _instance;
     public static SpinController Instance => _instance;
+
+    private SlotAnimation slotAnimation;
 
     private void Awake()
     {
@@ -26,6 +28,8 @@ public class SpinController : MonoBehaviour
             if (Application.isPlaying)
                 Destroy(gameObject);
         }
+
+        slotAnimation = Tween<SlotAnimation>.GetAnimation();
     }
     private void Start()
     {
@@ -41,7 +45,7 @@ public class SpinController : MonoBehaviour
     {
         spinButton.interactable = false;
         rowCount = 0;
-        slots[0].Animate();
+        slotAnimation.StartAnimation(rowViews[0].slots);
 
         EventDispatcher.DispatchEvent(EventNames.ON_START_SPIN);
     }
@@ -53,7 +57,7 @@ public class SpinController : MonoBehaviour
 
         rowCount++;
 
-        if (rowCount >= slots.Length)
+        if (rowCount >= rowViews.Length)
         {
             EventDispatcher.DispatchEvent(EventNames.ON_FINISH_SPIN);
             spinButton.interactable = true;
@@ -61,7 +65,7 @@ public class SpinController : MonoBehaviour
             return;
         }
 
-        slots[rowCount].Animate();
+        slotAnimation.StartAnimation(rowViews[rowCount].slots);
     }
 
 
