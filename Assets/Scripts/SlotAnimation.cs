@@ -27,6 +27,8 @@ public class SlotAnimation : ITweenAnimation
 
     public void StartAnimation(RectTransform[] slots)
     {
+        Debug.Log($">>>> ERROR HERE WITH POSITION OF SLOT 0");
+
         _slots = slots;
         height = _slots[0].rect.height;
         bottomPosition = _slots[_slots.Length - 1].localPosition.y + _slots[_slots.Length - 1].rect.yMin;
@@ -37,15 +39,16 @@ public class SlotAnimation : ITweenAnimation
 
     public void Start()
     {
-        OnstartAnimation?.Invoke(this);
-
         if (!isSpining)
         {
             initialVelocity = UnityEngine.Random.Range(_config.initialMinVelocity, _config.initialMaxVelocity);
             spinTime = UnityEngine.Random.Range(_config.spinMinTime, _config.spinMaxTime);
             isSpining = true;
+            isBreaking = false;
             timer = 0f;
         }
+
+        OnstartAnimation?.Invoke(this);
     }
 
     public void Update()
@@ -67,7 +70,6 @@ public class SlotAnimation : ITweenAnimation
                     initialVelocity = 0;
                     isBreaking = false;
                     isSpining = false;
-                    //EventDispatcher.DispatchEvent(EventNames.ON_STOP_ROW, this);
                     OnFinishAnimation?.Invoke(this);
                     return;
                 }

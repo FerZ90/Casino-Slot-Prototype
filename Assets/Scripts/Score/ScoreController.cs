@@ -39,22 +39,25 @@ public class ScoreController : MonoBehaviour
         foreach (var score in rowsScore)
             score.GetRowScore();
 
+        var patterns = scorePatterns.GetPatterns();
+
         finalSlots = new SlotID[3, rowsScore.Length];
 
         for (int i = 0; i < finalSlots.GetLength(0); i++)
         {
             for (int j = 0; j < finalSlots.GetLength(1); j++)
             {
-                foreach (var pattern in scorePatterns.patterns)
+                finalSlots[i, j] = rowsScore[j].RowScore[i];
+                foreach (var pattern in patterns)
                     pattern.Validate(finalSlots[i, j]);
             }
         }
 
         int finalScore = 0;
 
-        foreach (var scorer in scorePatterns.patterns)
+        foreach (var pattern in patterns)
         {
-            var scoreCounter = scorer.GetFinalScore();
+            var scoreCounter = pattern.GetFinalScore();
 
             foreach (var counter in scoreCounter)
             {

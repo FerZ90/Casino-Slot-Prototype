@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82a4f919fbcebb441a5f85b668461444, type: 3}
   m_Name: ScorePatterns
   m_EditorClassIdentifier: 
-  patterns:
+  patternsIndex:
   - pattern:
     - {x: 2, y: 0}
     - {x: 0, y: 1}
@@ -20,7 +20,7 @@ MonoBehaviour:
     - {x: 0, y: 3}
     - {x: 2, y: 4}
   - pattern:
-    - {x: 0, y: 0}
+    - {x: 2, y: 0}
     - {x: 2, y: 1}
     - {x: 0, y: 2}
     - {x: 2, y: 3}

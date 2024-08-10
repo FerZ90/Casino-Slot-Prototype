@@ -27,14 +27,14 @@ public class SpinController : MonoBehaviour
     public void SpinButton()
     {
         spinButton.interactable = false;
-        rowCount = 0;
         slotAnimation.StartAnimation(rowViews[0].Slots);
-
         EventDispatcher.DispatchEvent(EventNames.ON_START_SPIN);
     }
 
     private void OnFinishAnimation(ITweenAnimation input)
     {
+        Debug.Log("OnFinishAnimation !!!");
+
         rowCount++;
 
         if (rowCount >= rowViews.Length)
