@@ -2179,6 +2179,7 @@ MonoBehaviour:
   - {fileID: 3005952691575743185}
   - {fileID: 3005952689970889585}
   - {fileID: 3005952690507905064}
+  scorePatterns: {fileID: 11400000, guid: ab069ce16229c2c45a91691f3f649a37, type: 2}
 --- !u!4 &1412523164
 Transform:
   m_ObjectHideFlags: 0

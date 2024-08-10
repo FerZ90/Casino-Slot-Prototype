@@ -6,16 +6,14 @@ public class ScoreController : MonoBehaviour
 {
     [SerializeField] private LineRenderer lineScorePrefab;
     [SerializeField] private SlotScore[] rowsScore;
+    [SerializeField] private ScorePatterns scorePatterns;
 
     private SlotID[,] finalSlots;
-
-    private List<IScorer> scorers;
 
     private List<LineRenderer> scoreLines = new List<LineRenderer>();
 
     private void Start()
     {
-        scorers = new List<IScorer>() { new StraightLineScorer(), new DiagonalBlankScorer() };
         EventDispatcher.AddEventListener(EventNames.ON_FINISH_SPIN, CalculateScore);
         EventDispatcher.AddEventListener(EventNames.ON_START_SPIN, ResetLines);
     }
@@ -47,15 +45,16 @@ public class ScoreController : MonoBehaviour
         {
             for (int j = 0; j < finalSlots.GetLength(1); j++)
             {
-                finalSlots[i, j] = rowsScore[j].RowScore[i];
+                foreach (var pattern in scorePatterns.patterns)
+                    pattern.Validate(finalSlots[i, j]);
             }
         }
 
         int finalScore = 0;
 
-        foreach (var scorer in scorers)
+        foreach (var scorer in scorePatterns.patterns)
         {
-            var scoreCounter = scorer.Score(finalSlots);
+            var scoreCounter = scorer.GetFinalScore();
 
             foreach (var counter in scoreCounter)
             {
