@@ -50,8 +50,6 @@ public class SlotAnimation : ITweenAnimation
         bottomPosition = lastSlot.localPosition.y + lastSlot.rect.yMin;
         height = topSlot.rect.height;
         _config = GameInstaller.Instance.spinConfig.animationConfig;
-
-        Debug.Log($"height: {height}");
     }
 
     public void Start()

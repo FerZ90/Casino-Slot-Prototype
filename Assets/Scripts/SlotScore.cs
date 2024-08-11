@@ -18,7 +18,6 @@ public partial class SlotScore : MonoBehaviour
                 continue;
 
             _rowScore.Add(new SlotID(line.SlotScore.SlotID, line.SlotScore.transform));
-            Debug.Log($"LAST SCORE: {line.SlotScore.SlotID}");
         }
     }
 
