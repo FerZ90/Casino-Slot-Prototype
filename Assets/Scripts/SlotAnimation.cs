@@ -47,11 +47,11 @@ public class SlotAnimation : ITweenAnimation
         }
 
         topSlot = firstSlot;
-
         bottomPosition = lastSlot.localPosition.y + lastSlot.rect.yMin;
-
         height = topSlot.rect.height;
         _config = GameInstaller.Instance.spinConfig.animationConfig;
+
+        Debug.Log($"height: {height}");
     }
 
     public void Start()
@@ -75,37 +75,37 @@ public class SlotAnimation : ITweenAnimation
 
     public void FixedUpdate()
     {
-        if (isSpining)
+        if (!isSpining)
+            return;
+
+        if (isBreaking)
         {
-            if (isBreaking)
-            {
-                if (initialVelocity > _config.initialMinVelocity * 0.5f)
-                    initialVelocity *= 0.99f;
+            if (initialVelocity > _config.initialMinVelocity * 0.5f)
+                initialVelocity *= 0.99f;
 
-                if (Mathf.Abs(_slots[0].localPosition.y % height) < 5.0f)
-                {
-                    initialVelocity = 0;
-                    isBreaking = false;
-                    isSpining = false;
-                    OnFinishAnimation?.Invoke(this);
-                    return;
-                }
+            if (Mathf.Abs(topSlot.localPosition.y % height) < 5.0f)
+            {
+                initialVelocity = 0;
+                isBreaking = false;
+                isSpining = false;
+                OnFinishAnimation?.Invoke(this);
+                return;
             }
 
-            foreach (var slot in _slots)
-            {
-                slot.localPosition -= new Vector3(0, initialVelocity * Time.fixedDeltaTime, 0);
-            }
+        }
 
-            foreach (var slot in _slots)
-            {
-                if ((slot.localPosition.y - slot.rect.yMin) <= bottomPosition)
-                {
-                    slot.localPosition = new Vector3(slot.localPosition.x, topSlot.localPosition.y + height, slot.localPosition.z);
-                    topSlot = slot;
-                }
-            }
+        foreach (var slot in _slots)
+        {
+            slot.localPosition -= new Vector3(0, initialVelocity * Time.fixedDeltaTime, 0);
+        }
 
+        foreach (var slot in _slots)
+        {
+            if (slot.localPosition.y <= bottomPosition)
+            {
+                slot.localPosition = new Vector3(slot.localPosition.x, topSlot.localPosition.y + height, slot.localPosition.z);
+                topSlot = slot;
+            }
         }
 
         CheckForStopSpin();

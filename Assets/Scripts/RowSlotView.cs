@@ -16,7 +16,7 @@ public class RowSlotView : MonoBehaviour
         _slots = new List<RectTransform>();
 
         float height = prefab.GetComponent<RectTransform>().rect.height;
-        float lastPos = +(height * 2);
+        float lastPos = +(height * ((int)(rowModel.Count / 2)));
 
         foreach (var model in rowModel)
         {
