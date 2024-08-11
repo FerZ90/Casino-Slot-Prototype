@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: SpinConfig
   m_EditorClassIdentifier: 
   animationConfig:
-    initialMinVelocity: 3000
-    initialMaxVelocity: 3500
-    spinMinTime: 0.5
-    spinMaxTime: 0.85
-  delayBetweenRows: 2
+    initialMinVelocity: 3500
+    initialMaxVelocity: 4500
+    spinMinTime: 2
+    spinMaxTime: 4

@@ -66,6 +66,9 @@ public class ScoreController : MonoBehaviour
                 lineScoreGO.positionCount = camPos.Length;
                 lineScoreGO.SetPositions(camPos);
 
+                var colorGradient = scorePatterns.GetScoreGradientColor(pattern);
+                lineScoreGO.colorGradient = colorGradient;
+
                 finalScore += counter.score;
             }
         }

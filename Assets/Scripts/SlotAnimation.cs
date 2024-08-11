@@ -78,7 +78,7 @@ public class SlotAnimation : ITweenAnimation
 
         if (isBreaking)
         {
-            if (initialVelocity > _config.initialMinVelocity * 0.5f)
+            if (initialVelocity > _config.initialMinVelocity * 0.6f)
                 initialVelocity *= 0.99f;
 
             if (Mathf.Abs(topSlot.localPosition.y % height) < 5.0f)

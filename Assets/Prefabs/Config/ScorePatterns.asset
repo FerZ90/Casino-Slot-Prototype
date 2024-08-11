@@ -19,57 +19,69 @@ MonoBehaviour:
     - {x: 2, y: 2}
     - {x: 0, y: 3}
     - {x: 2, y: 4}
+    scoreType: 1
   - pattern:
     - {x: 0, y: 0}
     - {x: 2, y: 1}
     - {x: 0, y: 2}
     - {x: 2, y: 3}
     - {x: 0, y: 4}
+    scoreType: 1
   - pattern:
     - {x: 0, y: 0}
     - {x: 0, y: 1}
     - {x: 0, y: 2}
     - {x: 0, y: 3}
     - {x: 0, y: 4}
+    scoreType: 0
   - pattern:
     - {x: 1, y: 0}
     - {x: 1, y: 1}
     - {x: 1, y: 2}
     - {x: 1, y: 3}
     - {x: 1, y: 4}
+    scoreType: 0
   - pattern:
     - {x: 2, y: 0}
     - {x: 2, y: 1}
     - {x: 2, y: 2}
     - {x: 2, y: 3}
     - {x: 2, y: 4}
+    scoreType: 0
   - pattern:
     - {x: 0, y: 0}
     - {x: 1, y: 1}
     - {x: 2, y: 2}
     - {x: 1, y: 3}
     - {x: 0, y: 4}
-  - pattern:
-    - {x: 0, y: 0}
-    - {x: 1, y: 1}
-    - {x: 2, y: 2}
-    - {x: 1, y: 3}
-    - {x: 0, y: 4}
+    scoreType: 2
   - pattern:
     - {x: 2, y: 0}
     - {x: 1, y: 1}
     - {x: 0, y: 2}
     - {x: 1, y: 3}
     - {x: 2, y: 4}
+    scoreType: 2
   - pattern:
     - {x: 0, y: 0}
     - {x: 0, y: 1}
     - {x: 1, y: 2}
     - {x: 2, y: 3}
     - {x: 2, y: 4}
+    scoreType: 3
   - pattern:
     - {x: 2, y: 0}
     - {x: 2, y: 1}
     - {x: 1, y: 2}
     - {x: 0, y: 3}
     - {x: 0, y: 4}
+    scoreType: 3
+  colors:
+  - type: 0
+    color: {r: 0, g: 0.5964391, b: 1, a: 1}
+  - type: 1
+    color: {r: 0.89143467, g: 1, b: 0, a: 1}
+  - type: 2
+    color: {r: 1, g: 0, b: 0.10174513, a: 1}
+  - type: 3
+    color: {r: 0.0010039806, g: 1, b: 0, a: 1}

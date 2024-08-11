@@ -54,6 +54,8 @@ public class Pattern
         var positions = _validIDs.Select(id => id.Transform.position).ToList();
         result.Add(new ScoreCounter() { positions = positions, score = score });
 
+        Reset();
+
         return result;
     }
 }
