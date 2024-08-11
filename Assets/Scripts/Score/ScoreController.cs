@@ -48,8 +48,6 @@ public class ScoreController : MonoBehaviour
             for (int j = 0; j < finalSlots.GetLength(1); j++)
             {
                 finalSlots[i, j] = rowsScore[j].RowScore[i];
-                foreach (var pattern in patterns)
-                    pattern.Validate(finalSlots[i, j]);
             }
         }
 
@@ -57,7 +55,7 @@ public class ScoreController : MonoBehaviour
 
         foreach (var pattern in patterns)
         {
-            var scoreCounter = pattern.GetFinalScore();
+            var scoreCounter = pattern.GetFinalScore(finalSlots);
 
             foreach (var counter in scoreCounter)
             {

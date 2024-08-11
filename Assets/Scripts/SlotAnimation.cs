@@ -14,7 +14,7 @@ public class SlotAnimation : ITweenAnimation
     private bool isBreaking = false;
     private float initialVelocity;
     private float spinTime;
-    private float bottomPosition;
+    private float bottomPosition = 0;
     private RectTransform topSlot;
     private float height;
 
@@ -27,14 +27,31 @@ public class SlotAnimation : ITweenAnimation
 
     public void StartAnimation(RectTransform[] slots)
     {
-        Debug.Log($">>>> ERROR HERE WITH POSITION OF SLOT 0");
-
         _slots = slots;
-        height = _slots[0].rect.height;
-        bottomPosition = _slots[_slots.Length - 1].localPosition.y + _slots[_slots.Length - 1].rect.yMin;
-        _config = GameInstaller.Instance.spinConfig.animationConfig;
-        topSlot = _slots[0];
+        Reset();
         Start();
+    }
+
+    private void Reset()
+    {
+        var firstSlot = _slots[0];
+        var lastSlot = _slots[0];
+
+        for (int i = 1; i < _slots.Length; i++)
+        {
+            if (_slots[i].localPosition.y > firstSlot.localPosition.y)
+                firstSlot = _slots[i];
+
+            if (_slots[i].localPosition.y < lastSlot.localPosition.y)
+                lastSlot = _slots[i];
+        }
+
+        topSlot = firstSlot;
+
+        bottomPosition = lastSlot.localPosition.y + lastSlot.rect.yMin;
+
+        height = topSlot.rect.height;
+        _config = GameInstaller.Instance.spinConfig.animationConfig;
     }
 
     public void Start()

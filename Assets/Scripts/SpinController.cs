@@ -33,8 +33,6 @@ public class SpinController : MonoBehaviour
 
     private void OnFinishAnimation(ITweenAnimation input)
     {
-        Debug.Log("OnFinishAnimation !!!");
-
         rowCount++;
 
         if (rowCount >= rowViews.Length)
