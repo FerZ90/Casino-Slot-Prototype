@@ -12,7 +12,6 @@ public class Pattern
 
     public Pattern(List<Vector2Int> pattern)
     {
-        Debug.Log($"pattern count: {pattern.Count}");
         this.pattern = pattern;
         _validIDs = new List<SlotID>();
     }
@@ -23,24 +22,16 @@ public class Pattern
         {
             var current = finalSlots[pattern[i].x, pattern[i].y];
 
-            Debug.Log($"Validate_00: {current.ID}");
-
             if (_validIDs.Count == 0)
             {
-                Debug.Log($"Validate_01: {current.ID}");
                 _validIDs.Add(current);
                 continue;
             }
 
             if (_validIDs[0].ID == current.ID)
-            {
-                Debug.Log($"Validate_02: {current.ID}");
                 _validIDs.Add(current);
-            }
             else
-            {
                 break;
-            }
         }
     }
 
@@ -55,8 +46,13 @@ public class Pattern
 
         var result = new List<ScoreCounter>();
 
-        var positions = _validIDs.Select(id => id.Transform.position).ToList();
         int score = ScoreGlobalValues.GetScore(_validIDs[0].ID, _validIDs.Count);
+
+        if (score <= 0)
+            return result;
+
+        var positions = _validIDs.Select(id => id.Transform.position).ToList();
+        result.Add(new ScoreCounter() { positions = positions, score = score });
 
         return result;
     }
